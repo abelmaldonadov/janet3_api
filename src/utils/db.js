@@ -13,8 +13,12 @@ const db = (query, bind) => {
     })
     connection.query(query, bind, function (error, results, fields) {
       if (error) reject(error)
-      results = JSON.parse(JSON.stringify(results))
-      resolve(results)
+      if (results) {
+        results = JSON.parse(JSON.stringify(results))
+        resolve(results)
+      } else {
+        resolve(true)
+      }
     })
   })
 }
