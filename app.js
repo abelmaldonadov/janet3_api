@@ -1,5 +1,6 @@
 const entities = require("./src/routes/entities")
-const home = require("./src/routes/home")
+const products = require("./src/routes/products")
+const transactions = require("./src/routes/transactions")
 
 const express = require("express")
 const helmet = require("helmet")
@@ -15,7 +16,8 @@ app.use(express.static("public"))
 
 // Routes
 app.use(`${api}/entities`, entities)
-app.use(`${api}/`, home)
+app.use(`${api}/products`, products)
+app.use(`${api}/transactions`, transactions)
 
 // Not Handle Request
 app.use((req, res, next) => res.sendStatus(404))
