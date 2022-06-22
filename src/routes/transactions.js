@@ -23,10 +23,10 @@ router
   })
   .post(async (req, res) => {
     try {
-      const { date, total, coin, transactionType, tracking, entity, state } = req.body
+      const { total, coin, transactionType, tracking, entity, state } = req.body
       await db(
-        `INSERT INTO my_transactions (date, total, coin, transactionType, tracking, entity, state) VALUES (?,?,?,?,?,?,?)`,
-        [date, total, coin, transactionType, tracking, entity, state]
+        `INSERT INTO my_transactions (total, coin, transactionType, tracking, entity, state) VALUES (?,?,?,?,?,?)`,
+        [total, coin, transactionType, tracking, entity, state]
       )
       res.sendStatus(201)
     } catch (err) {
@@ -63,10 +63,10 @@ router
   .put(async (req, res) => {
     try {
       const { id } = req.params
-      const { date, total, coin, transactionType, tracking, entity, state } = req.body
+      const { total, coin, transactionType, tracking, entity, state } = req.body
       await db(
-        `UPDATE my_transactions SET date = ?, total = ?, coin = ?, transactionType = ?, tracking = ?, entity = ?, state = ? WHERE id = ?`,
-        [date, total, coin, transactionType, tracking, entity, state, id]
+        `UPDATE my_transactions SET total = ?, coin = ?, transactionType = ?, tracking = ?, entity = ?, state = ? WHERE id = ?`,
+        [total, coin, transactionType, tracking, entity, state, id]
       )
       res.sendStatus(201)
     } catch (err) {

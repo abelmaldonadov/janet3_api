@@ -24,6 +24,7 @@ router
   .post(async (req, res) => {
     try {
       const { name, serial, brand, description, price, stock, coin, vendor, state } = req.body
+      console.log(name, serial, brand, description, price, stock, coin, vendor, state)
       await db(
         `INSERT INTO my_products (name, serial, brand, description, price, stock, coin, vendor, state) VALUES (?,?,?,?,?,?,?,?,?)`,
         [name, serial, brand, description, price, stock, coin, vendor, state]
@@ -62,7 +63,7 @@ router
       const { id } = req.params
       const { name, serial, brand, description, price, stock, coin, vendor, state } = req.body
       await db(
-        `UPDATE my_entities SET 
+        `UPDATE my_products SET 
                 name = ?, serial = ?, brand = ?, description = ?, price = ?, stock = ?, coin = ?, vendor = ?, state = ? WHERE id = ?`,
         [name, serial, brand, description, price, stock, coin, vendor, state, id]
       )

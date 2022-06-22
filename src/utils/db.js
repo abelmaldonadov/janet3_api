@@ -20,6 +20,7 @@ const db = (query, bind) => {
         resolve(true)
       }
     })
+    connection.end()
   })
 }
 
