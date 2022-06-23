@@ -23,11 +23,31 @@ router
   })
   .post(async (req, res) => {
     try {
-      const { total, coin, transactionType, tracking, entity, state } = req.body
+      const { head, body } = req.body
+      const { total, coin, transactionType, tracking, entity, state } = head
+      // Inserto la cabecera
       await db(
         `INSERT INTO my_transactions (total, coin, transactionType, tracking, entity, state) VALUES (?,?,?,?,?,?)`,
         [total, coin, transactionType, tracking, entity, state]
       )
+      // Obtengo el id generado para la transacción
+      const lastTransaction = await db(`SELECT * FROM my_transactions ORDER BY date DESC LIMIT 1`)
+      const id = lastTransaction[0].id
+      // Inserto el detalle
+      for (let item of body) {
+        await db(
+          `INSERT INTO my_transactions_detail (price, quantity, subtotal, coin, transaction, product, state) VALUES (?,?,?,?,?,?,?)`,
+          [
+            item["price"],
+            item["quantity"],
+            item["subtotal"],
+            item["coin"],
+            id,
+            item["product"],
+            item["state"],
+          ]
+        )
+      }
       res.sendStatus(201)
     } catch (err) {
       res.sendStatus(400)
@@ -54,6 +74,7 @@ router
   .delete(async (req, res) => {
     try {
       const { id } = req.params
+      await db(`DELETE FROM my_transactions_detail WHERE transaction = ?`, [id])
       await db(`DELETE FROM my_transactions WHERE id = ?`, [id])
       res.sendStatus(204)
     } catch (err) {

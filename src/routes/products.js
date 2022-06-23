@@ -23,11 +23,10 @@ router
   })
   .post(async (req, res) => {
     try {
-      const { name, serial, brand, description, price, stock, coin, vendor, state } = req.body
-      console.log(name, serial, brand, description, price, stock, coin, vendor, state)
+      const { name, serial, brand, description, price, coin, vendor, state } = req.body
       await db(
-        `INSERT INTO my_products (name, serial, brand, description, price, stock, coin, vendor, state) VALUES (?,?,?,?,?,?,?,?,?)`,
-        [name, serial, brand, description, price, stock, coin, vendor, state]
+        `INSERT INTO my_products (name, serial, brand, description, price, coin, vendor, state) VALUES (?,?,?,?,?,?,?,?,?)`,
+        [name, serial, brand, description, price, coin, vendor, state]
       )
       res.sendStatus(201)
     } catch (err) {
@@ -61,11 +60,11 @@ router
   .put(async (req, res) => {
     try {
       const { id } = req.params
-      const { name, serial, brand, description, price, stock, coin, vendor, state } = req.body
+      const { name, serial, brand, description, price, coin, vendor, state } = req.body
       await db(
         `UPDATE my_products SET 
-                name = ?, serial = ?, brand = ?, description = ?, price = ?, stock = ?, coin = ?, vendor = ?, state = ? WHERE id = ?`,
-        [name, serial, brand, description, price, stock, coin, vendor, state, id]
+                name = ?, serial = ?, brand = ?, description = ?, price = ?, coin = ?, vendor = ?, state = ? WHERE id = ?`,
+        [name, serial, brand, description, price, coin, vendor, state, id]
       )
       res.sendStatus(201)
     } catch (err) {
