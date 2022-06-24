@@ -11,7 +11,6 @@ const meta = async () => {
     tracking: await db("SELECT * FROM aux_tracking"),
     transactionTypes: await db("SELECT * FROM aux_transaction_types"),
     // Conf
-    models: await db("SELECT * FROM conf_models"),
     routes: await db("SELECT * FROM conf_routes"),
     users: await db("SELECT id, username, entity, level, state FROM conf_users"),
   }

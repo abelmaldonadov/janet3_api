@@ -13,7 +13,7 @@ router
   .get(async (req, res) => {
     try {
       const data = {
-        data: await db(`SELECT * FROM my_products`),
+        data: await db(`SELECT * FROM conf_users`),
         meta: await meta(),
       }
       res.json(data)
@@ -23,10 +23,10 @@ router
   })
   .post(async (req, res) => {
     try {
-      const { name, serial, brand, description, price, coin, state } = req.body
+      const { username, password, entity, level, state } = req.body
       await db(
-        `INSERT INTO my_products (name, serial, brand, description, price, coin, state) VALUES (?,?,?,?,?,?,?)`,
-        [name, serial, brand, description, price, coin, state]
+        `INSERT INTO conf_users (username, password, entity, level, state) VALUES (?,?,?,?,?)`,
+        [username, password, entity, level, state]
       )
       res.sendStatus(201)
     } catch (err) {
@@ -40,7 +40,7 @@ router
     try {
       const { id } = req.params
       const data = {
-        data: await db(`SELECT * FROM my_products WHERE id = ?`, [id]),
+        data: await db(`SELECT * FROM conf_users WHERE id = ?`, [id]),
         meta: await meta(),
       }
       res.json(data)
@@ -51,7 +51,7 @@ router
   .delete(async (req, res) => {
     try {
       const { id } = req.params
-      await db(`DELETE FROM my_products WHERE id = ?`, [id])
+      await db(`DELETE FROM conf_users WHERE id = ?`, [id])
       res.sendStatus(204)
     } catch (err) {
       res.sendStatus(400)
@@ -60,11 +60,10 @@ router
   .put(async (req, res) => {
     try {
       const { id } = req.params
-      const { name, serial, brand, description, price, coin, state } = req.body
+      const { username, password, entity, level, state } = req.body
       await db(
-        `UPDATE my_products SET 
-                name = ?, serial = ?, brand = ?, description = ?, price = ?, coin = ?, state = ? WHERE id = ?`,
-        [name, serial, brand, description, price, coin, state, id]
+        `UPDATE conf_users SET username = ?, password = ?, entity = ?, level = ?, state = ? WHERE id = ?`,
+        [username, password, entity, level, state, id]
       )
       res.sendStatus(201)
     } catch (err) {

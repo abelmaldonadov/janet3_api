@@ -5,8 +5,8 @@ const db = require("../utils/db")
 const meta = require("../utils/meta")
 const router = express.Router()
 
-router.use(authentication)
 router.use(authorization)
+router.use(authentication)
 
 router
   .route("/")
