@@ -1,11 +1,9 @@
 const express = require("express")
 const authentication = require("../middlewares/authentication")
-const authorization = require("../middlewares/authorization")
 const db = require("../utils/db")
 const meta = require("../utils/meta")
 const router = express.Router()
 
-router.use(authorization)
 router.use(authentication)
 
 router

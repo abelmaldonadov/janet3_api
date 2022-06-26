@@ -2,27 +2,24 @@ const db = require("../utils/db")
 const meta = require("../utils/meta")
 const express = require("express")
 const jwt = require("jsonwebtoken")
-const authorization = require("../middlewares/authorization")
 const router = express.Router()
-
-router.use(authorization)
 
 router.route("/").post(async (req, res) => {
   try {
     const { username, password } = req.body
     // Validar identidad
-    const user = await db(`SELECT * FROM conf_users WHERE username = ? AND password = ?`, [
-      username,
-      password,
-    ])
+    const user = await db(
+      `SELECT * FROM conf_users WHERE username = ? AND password = ? AND state = 1`,
+      [username, password]
+    )
     if (user.length > 0) {
       // Crear token
       const token = jwt.sign(
         {
-          data: { username },
+          data: { user: user[0] },
         },
         process.env.JWT_SECRET_KEY,
-        { expiresIn: "1h" }
+        { expiresIn: "10m" }
       )
       // Insertar la sesión
       await db(`INSERT INTO conf_sessions (host, token, user) VALUES (?,?,?)`, [
